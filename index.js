@@ -245,7 +245,7 @@ function changeVideoSize() {
             setTimeout("changeVideoSize()", 10000);
             break;
         case 1:
-            setTimeout("changeVideoSize()", 10000);
+            setTimeout("changeVideoSize()", 5000);
             break;
         case 2:
             window.scrollTo(centerX-30, centerY);
