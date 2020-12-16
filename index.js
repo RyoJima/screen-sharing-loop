@@ -1,5 +1,14 @@
 "user strict";
 
+// ブラウザ判定．Chromeでアクセスするように促す．
+const userAgent = window.navigator.userAgent.toLowerCase();
+if (userAgent.indexOf('chrome') === -1) {
+    alert('Google Chromeでアクセスしてください')
+    document.getElementById('status').innerHTML = "Google Chromeでアクセスしてください";
+    document.getElementById('status').className = "error";
+    // exit;
+}
+
 window.requestAnimFrame = (function () {
     return window.requestAnimationFrame ||
         window.webkitRequestAnimationFrame ||
