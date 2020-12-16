@@ -1,12 +1,14 @@
-.circle{
+.circle {
     display: inline-block;
     width: 80px;
     height: 80px;
     border-radius: 50%;
     background: skyblue;
 }
-html,body {
+
+html, body {
     height: 100%;
+    position: relative;
 }
 
 #canvas-wrap {
@@ -17,3 +19,73 @@ html,body {
     left: 0;
 }
 
+#text-button {
+    /*position: absolute;*/
+    top: 100px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    cursor: pointer;
+    width: 130px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 30px;
+    letter-spacing: 3px;
+    text-align: center;
+    display: inline-block;
+    padding: 20px 0;
+    text-decoration: none;
+    color: #67c5ff;
+    border: solid 3px #67c5ff;
+    border-radius: 3px;
+    transition: .4s;
+    z-index: 3;
+}
+
+#text-button:hover {
+    background: #67c5ff;
+    color: white;
+}
+
+
+.popup {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: .6s;
+}
+
+.popup.is-show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.popup-inner {
+    position: absolute;
+    text-align: center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 600px;
+    padding: 50px;
+    background-color: #fff;
+    z-index: 2;
+}
+
+.black-background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .8);
+    z-index: 1;
+    cursor: pointer;
+}

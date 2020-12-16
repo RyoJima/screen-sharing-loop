@@ -23,7 +23,7 @@ window.requestAnimFrame = (function () {
 
 // ランダムな方向に移動するパーティクル
 // 参照 https://www.webopixel.net/javascript/1271.html
-window.onload = function() {
+window.onload = function () {
     const canvasWrap = document.querySelector('#canvas-wrap');
     const canvas = document.querySelector('#canvas-container');
     const ctx = canvas.getContext('2d');
@@ -58,25 +58,25 @@ window.onload = function() {
         };
     };
     Dot.prototype = {
-        update: function() {
+        update: function () {
             this.draw();
 
             this.pos.x += this.vec.x;
             this.pos.y += this.vec.y;
 
             // 画面外に出たら反対へ再配置
-            if(this.pos.x > canvas.width + 10) {
+            if (this.pos.x > canvas.width + 10) {
                 this.pos.x = -5;
-            } else if(this.pos.x < 0 - 10) {
+            } else if (this.pos.x < 0 - 10) {
                 this.pos.x = canvas.width + 5;
-            } else if(this.pos.y > canvas.height + 10) {
+            } else if (this.pos.y > canvas.height + 10) {
                 this.pos.y = -5;
-            } else if(this.pos.y < 0 - 10) {
+            } else if (this.pos.y < 0 - 10) {
                 this.pos.y = canvas.height + 5;
             }
         },
 
-        draw: function() {
+        draw: function () {
             ctx.fillStyle = this.color;
             ctx.beginPath();
             ctx.arc(this.pos.x, this.pos.y, this.size, 0, 2 * Math.PI, false);
@@ -109,6 +109,7 @@ window.onload = function() {
         }
         update();
     }
+
     init();
 }
 
@@ -137,10 +138,12 @@ function gotLocalMediaStream(mediaStream) {
     centerX = (document.getElementById("shared-video").clientWidth - viewWidth) / 2;
     centerY = (document.getElementById("shared-video").clientHeight - viewHeight) / 2;
     scrollRandom();
+    changeVideoSize()
 }
 
 function handleLocalMediaStreamError(error) {
     console.log("navigator.getUserMedia error: ", error);
+    popup.classList.add('is-show');
 }
 
 // 左上から時計回りに 8 種類の方向．
@@ -170,26 +173,26 @@ function nextDirection() {
 
     // 画面の端に近づいたら，中心方向に軌道修正
     if (Math.random() * 100 < 90) {
-        if (wx < centerX/2 && dx <= 0) {
+        if (wx < centerX / 2 && dx <= 0) {
             directionsIndex = 3;  // 右向き
             dx = directions[directionsIndex][0];
             if (Math.random() * 100 < 30) {
                 dx *= 2;
             }
-        } else if (centerX*3/2 < wx && dx >= 0) {
+        } else if (centerX * 3 / 2 < wx && dx >= 0) {
             directionsIndex = 7;  // 左向き
             dx = directions[directionsIndex][0];
             if (Math.random() * 100 < 30) {
                 dx *= 2;
             }
         }
-        if (wy < centerY/2 && dy >= 0) {
+        if (wy < centerY / 2 && dy >= 0) {
             directionsIndex = 5;  // 下向き
             dy = directions[directionsIndex][1];
             if (Math.random() * 100 < 30) {
                 dy *= 2;
             }
-        } else if (centerY*3/2 < wy && dy <= 0) {
+        } else if (centerY * 3 / 2 < wy && dy <= 0) {
             directionsIndex = 1;  // 上向き
             dy = directions[directionsIndex][1];
             if (Math.random() * 100 < 30) {
@@ -209,12 +212,24 @@ function nextDirection() {
 }
 
 
-// MediaStream を初期化
-// Chrome 以外にも対応したい https://qiita.com/massie_g/items/f852680b16c1b14cb9e8
-navigator.mediaDevices
-    .getDisplayMedia(mediaStreamConstraints)
-    .then(gotLocalMediaStream)
-    .catch(handleLocalMediaStreamError);
+// ポップアップを出す
+const popup = document.getElementById('js-popup');
+const textBtn = document.getElementById('text-button');
+popup.classList.add('is-show');
+closePopUp(textBtn);
+
+function closePopUp(elem) {
+    if (!elem) return;
+    elem.addEventListener('click', function () {
+        // MediaStream を初期化
+        navigator.mediaDevices
+            .getDisplayMedia(mediaStreamConstraints)
+            .then(gotLocalMediaStream)
+            .catch(handleLocalMediaStreamError);
+
+        popup.classList.remove('is-show');
+    })
+}
 
 
 // スクロール位置に関する変数
@@ -243,7 +258,6 @@ function scrollRandom() {
 
 function changeVideoSize() {
     videoScalesIndex = (videoScalesIndex + 1) % videoScales.length;
-    console.log("changed to " + String(videoScalesIndex));
     viewWidth = document.documentElement.clientWidth;
     viewHeight = document.documentElement.clientHeight;
     document.getElementById("shared-video").style.width = String(viewWidth * videoScales[videoScalesIndex]) + "px";
@@ -257,7 +271,7 @@ function changeVideoSize() {
             setTimeout("changeVideoSize()", 5000);
             break;
         case 2:
-            window.scrollTo(centerX-30, centerY);
+            window.scrollTo(centerX - 30, centerY);
             setTimeout("changeVideoSize()", 15000);
             break;
         default:
@@ -265,4 +279,3 @@ function changeVideoSize() {
     }
 }
 
-changeVideoSize()
